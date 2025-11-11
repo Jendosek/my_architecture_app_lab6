@@ -34,19 +34,19 @@ final List<Song> mockRecommendedSongs = [
     id: 's1',
     title: 'Sisa Rasa',
     artistName: 'Mahalini',
-    imageUrl: 'assets/images/song_1.jpg',
+    imageUrl: 'assets/images/song.jpg',
   ),
   Song(
     id: 's2',
     title: 'Arti Untuk Cinta',
     artistName: 'Arsy Widianto',
-    imageUrl: 'assets/images/song_2.jpg',
+    imageUrl: 'assets/images/song.jpg',
   ),
   Song(
     id: 's3',
     title: 'Runtuh',
     artistName: 'Feby Putri',
-    imageUrl: 'assets/images/song_3.jpg',
+    imageUrl: 'assets/images/song.jpg',
   ),
 ];
 
@@ -55,12 +55,12 @@ final List<Song> mockMostlyPlayedSongs = [
     id: 's4',
     title: 'Dekat Di Hati',
     artistName: 'RAN',
-    imageUrl: 'assets/images/song_4.jpg',
+    imageUrl: 'assets/images/song.jpg',
   ),
   Song(
     id: 's5',
     title: 'Bigger Than The Whole...',
     artistName: 'Taylor Swift',
-    imageUrl: 'assets/images/song_5.jpg',
+    imageUrl: 'assets/images/song.jpg',
   ),
 ];

@@ -4,13 +4,20 @@ import 'package:provider/provider.dart';
 import 'package:my_architecture_app/di/injection_container.dart';
 import 'package:my_architecture_app/ui/pages/login/login_page.dart';
 import 'package:my_architecture_app/ui/pages/login/login_provider.dart';
+import 'package:my_architecture_app/ui/pages/home/home_provider.dart';
+import 'package:my_architecture_app/ui/pages/profile/profile_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   initDependencyInjection();
+
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => LoginProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => LoginProvider()),
+        ChangeNotifierProvider(create: (_) => HomeProvider()),
+        ChangeNotifierProvider(create: (_) => ProfileProvider()),
+      ],
       child: MyApp(),
     ),
   );
