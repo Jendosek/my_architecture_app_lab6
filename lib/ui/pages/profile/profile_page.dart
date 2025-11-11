@@ -101,7 +101,7 @@ class ProfilePage extends StatelessWidget {
               ),
               title: Text(song.title, style: TextStyle(color: Colors.white)),
               subtitle: Text(song.artistName, style: TextStyle(color: Colors.grey[400])),
-            )).toList(),
+            )),
       ],
     );
   }

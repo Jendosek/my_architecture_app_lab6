@@ -13,7 +13,7 @@ class LoginProvider extends ChangeNotifier {
   String? get errorMessage => _errorMessage;
 
   User? _user;
-  //User? get user => _user;
+  User? get user => _user;
 
   Future<bool> login(String email, String password) async {
     _isLoading = true;
