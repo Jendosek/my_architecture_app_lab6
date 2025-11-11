@@ -7,73 +7,71 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 1. "Слухаємо" ProfileProvider
     final profileProvider = context.watch<ProfileProvider>();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Profile'),
-        backgroundColor: Colors.grey[900],
+    return SafeArea(
+      child: Builder(
+        builder: (context) {
+          if (profileProvider.isLoading) {
+            return Center(
+              child: CircularProgressIndicator(color: Colors.purple),
+            );
+          }
+      
+          if (profileProvider.errorMessage != null) {
+            return Center(
+              child: Text(
+                'Помилка: ${profileProvider.errorMessage}',
+                style: TextStyle(color: Colors.red),
+              ),
+            );
+          }
+      
+          if (profileProvider.user == null) {
+            return Center(
+              child: Text(
+                'Не вдалося завантажити профіль',
+                style: TextStyle(color: Colors.white),
+              ),
+            );
+          }
+      
+          final user = profileProvider.user!;
+      
+          return ListView(
+            padding: EdgeInsets.all(16.0),
+            children: [
+              _buildProfileHeader(user),
+              SizedBox(height: 24),
+              _buildProfileButtons(),
+              Divider(color: Colors.grey[800], height: 48),
+              _buildSectionHeader('Mostly played'),
+              SizedBox(height: 16),
+              _buildMostlyPlayedList(profileProvider.mostlyPlayedSongs),
+            ],
+          );
+        },
       ),
-      backgroundColor: Colors.grey[900],
-      body: _buildBody(context, profileProvider), // Виносимо логіку
     );
   }
 
-  Widget _buildBody(BuildContext context, ProfileProvider provider) {
-    // 2. Стан Завантаження
-    if (provider.isLoading) {
-      return Center(
-        child: CircularProgressIndicator(color: Colors.purple),
-      );
-    }
-
-    // 3. Стан Помилки
-    if (provider.errorMessage != null) {
-      return Center(
-        child: Text(
-          'Сталася помилка: ${provider.errorMessage}',
-          style: TextStyle(color: Colors.red),
-        ),
-      );
-    }
-
-    // 4. Стан Успіху (але якщо юзер чомусь null)
-    if (provider.user == null) {
-      return Center(
-        child: Text(
-          'Не вдалося завантажити профіль',
-          style: TextStyle(color: Colors.white),
-        ),
-      );
-    }
-
-    // 5. Стан Успіху (Все Ок)
-    final user = provider.user!; // Ми знаємо, що user не null
-
-    return ListView( // ListView, щоб можна було скролити
-      padding: EdgeInsets.all(16.0),
+  Widget _buildProfileHeader(dynamic user) {
+    return Column(
       children: [
-        // --- Блок Профілю ---
-        Center(
-          child: CircleAvatar(
-            radius: 50,
-            backgroundImage: AssetImage(user.avatarUrl), // Використовуємо asset
-            onBackgroundImageError: (e, s) => {}, // Обробка помилки (якщо asset не знайдено)
-          ),
+        CircleAvatar(
+          radius: 50,
+          backgroundImage: AssetImage(user.avatarUrl),
+          onBackgroundImageError: (e, s) => {},
         ),
         SizedBox(height: 16),
-        Center(
-          child: Text(
-            user.name,
-            style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
-          ),
+        Text(
+          user.name,
+          style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
         ),
-        Center(
-          child: Text(
-            user.email,
-            style: TextStyle(color: Colors.grey[400], fontSize: 16),
-          ),
+        SizedBox(height: 4),
+        Text(
+          user.email,
+          style: TextStyle(color: Colors.grey[400], fontSize: 16),
         ),
         SizedBox(height: 24),
         Row(
@@ -83,36 +81,75 @@ class ProfilePage extends StatelessWidget {
             _buildProfileStat('Following', user.following.toString()),
           ],
         ),
-        Divider(color: Colors.grey[700], height: 48), // Розділювач
-
-        // --- Блок "Mostly Played" ---
-        Text(
-          'Mostly played',
-          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 16),
-        ...provider.mostlyPlayedSongs.map((song) => ListTile(
-              leading: Image.asset(
-                song.imageUrl,
-                width: 50,
-                height: 50,
-                fit: BoxFit.cover,
-                errorBuilder: (c, o, s) => Icon(Icons.music_note),
-              ),
-              title: Text(song.title, style: TextStyle(color: Colors.white)),
-              subtitle: Text(song.artistName, style: TextStyle(color: Colors.grey[400])),
-            )),
       ],
     );
   }
 
-  // Маленький віджет-хелпер для статистики профілю
+  Widget _buildProfileButtons() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        _buildActionButton(icon: Icons.settings, label: 'Settings'),
+        _buildActionButton(icon: Icons.share, label: 'Share'),
+      ],
+    );
+  }
+  
+  Widget _buildSectionHeader(String title) {
+    return Text(
+      title,
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 22,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+  
+  Widget _buildMostlyPlayedList(List<dynamic> songs) {
+    return Column(
+      children: songs.map((song) => ListTile(
+        contentPadding: EdgeInsets.zero,
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Image.asset(
+            song.imageUrl,
+            width: 50,
+            height: 50,
+            fit: BoxFit.cover,
+            errorBuilder: (c, o, s) => Icon(Icons.music_note),
+          ),
+        ),
+        title: Text(song.title, style: TextStyle(color: Colors.white)),
+        subtitle: Text(song.artistName, style: TextStyle(color: Colors.grey[400])),
+        trailing: Icon(Icons.more_vert, color: Colors.white),
+      )).toList(),
+    );
+  }
+  
   Widget _buildProfileStat(String label, String value) {
     return Column(
       children: [
         Text(value, style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
         SizedBox(height: 4),
         Text(label, style: TextStyle(color: Colors.grey[400], fontSize: 14)),
+      ],
+    );
+  }
+  
+  Widget _buildActionButton({required IconData icon, required String label}) {
+    return Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.grey[800],
+            shape: BoxShape.circle,
+          ),
+          padding: EdgeInsets.all(16),
+          child: Icon(icon, color: Colors.white, size: 30),
+        ),
+        SizedBox(height: 8),
+        Text(label, style: TextStyle(color: Colors.white, fontSize: 14)),
       ],
     );
   }

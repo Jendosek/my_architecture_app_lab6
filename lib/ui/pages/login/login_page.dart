@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_architecture_app/ui/pages/home/home_page.dart';
+import 'package:my_architecture_app/ui/pages/main/main_page.dart';
 import 'package:provider/provider.dart';
 import 'login_provider.dart';
 
@@ -29,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
 
     if (isSuccess && mounted) {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const HomePage()),
+        MaterialPageRoute(builder: (context) => const MainPage()),
       );
     }
   }

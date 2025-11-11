@@ -63,4 +63,10 @@ final List<Song> mockMostlyPlayedSongs = [
     artistName: 'Taylor Swift',
     imageUrl: 'assets/images/song.png',
   ),
+  Song(
+    id: 's6',
+    title: 'Bigger Than The Whole...',
+    artistName: 'Taylor Swift',
+    imageUrl: 'assets/images/song.png',
+  ),
 ];
