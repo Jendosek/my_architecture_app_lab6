@@ -1,5 +1,6 @@
 import '../../../domain/entities/song.dart';
 import '../../../domain/entities/user.dart';
+import '../../../domain/entities/artist.dart';
 
 final List<User> mockUsers = [
   User(
@@ -68,5 +69,20 @@ final List<Song> mockMostlyPlayedSongs = [
     title: 'Bigger Than The Whole...',
     artistName: 'Taylor Swift',
     imageUrl: 'assets/images/song.png',
+  ),
+];
+
+final List<Artist> mockArtists = [
+  Artist(
+    id: 'a1',
+    name: 'Adele',
+    avatarUrl: 'assets/images/artist.png',
+    monthlyListeners: '43,877,516',
+  ),
+  Artist(
+    id: 'a2',
+    name: 'Tiara Andini',
+    avatarUrl: 'assets/images/artist.png',
+    monthlyListeners: '38,782,341',
   ),
 ];
