@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:my_architecture_app/ui/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'package:my_architecture_app/di/injection_container.dart';
 import 'package:my_architecture_app/ui/pages/login/login_page.dart';
-import 'package:my_architecture_app/ui/pages/login/login_provider.dart';
 import 'package:my_architecture_app/ui/pages/home/home_provider.dart';
 import 'package:my_architecture_app/ui/pages/profile/profile_provider.dart';
 
@@ -14,7 +14,7 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => LoginProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => HomeProvider()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
       ],

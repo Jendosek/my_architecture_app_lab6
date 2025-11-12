@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'profile_provider.dart';
+import '../../providers/auth_provider.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -8,6 +9,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final profileProvider = context.watch<ProfileProvider>();
+    final authProvider = context.watch<AuthProvider>();
 
     return SafeArea(
       child: Builder(
@@ -27,7 +29,7 @@ class ProfilePage extends StatelessWidget {
             );
           }
       
-          if (profileProvider.user == null) {
+          if (authProvider.user == null) {
             return Center(
               child: Text(
                 'Не вдалося завантажити профіль',
@@ -36,7 +38,8 @@ class ProfilePage extends StatelessWidget {
             );
           }
       
-          final user = profileProvider.user!;
+          final user = authProvider.user!;
+          final songs = profileProvider.mostlyPlayedSongs;
       
           return ListView(
             padding: EdgeInsets.all(16.0),
@@ -47,7 +50,7 @@ class ProfilePage extends StatelessWidget {
               Divider(color: Colors.grey[800], height: 48),
               _buildSectionHeader('Mostly played'),
               SizedBox(height: 16),
-              _buildMostlyPlayedList(profileProvider.mostlyPlayedSongs),
+              _buildMostlyPlayedList(songs),
             ],
           );
         },

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_architecture_app/ui/pages/main/main_page.dart';
 import 'package:provider/provider.dart';
-import 'login_provider.dart';
+import '../../providers/auth_provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -10,7 +10,7 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage>  {
   final _emailController = TextEditingController(text: 'test@gmail.com');
   final _passwordController = TextEditingController(text: '123456');
 
@@ -21,7 +21,7 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  void _handleLogin(LoginProvider provider) async {
+  void _handleLogin(AuthProvider provider) async {
     final email = _emailController.text;
     final password = _passwordController.text;
 
@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final loginProvider = context.watch<LoginProvider>();
+    final loginProvider = context.watch<AuthProvider>();
 
     return Scaffold(
       backgroundColor: Colors.black, 
@@ -90,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _buildForm(LoginProvider provider) {
+  Widget _buildForm(AuthProvider provider) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -132,7 +132,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
   
-  Widget _buildLoginButton(LoginProvider provider) {
+  Widget _buildLoginButton(AuthProvider provider) {
     return provider.isLoading
         ? Center(
             child: CircularProgressIndicator(
